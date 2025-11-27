@@ -1,0 +1,6 @@
+# Supabase 설정
+# .env.local 파일을 생성하고 아래 내용을 복사하여 실제 값으로 수정하세요
+
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+

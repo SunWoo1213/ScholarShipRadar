@@ -1,0 +1,14 @@
+# Supabase 설정
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_KEY=your-service-role-key
+
+# OpenAI API 설정
+OPENAI_API_KEY=sk-your-openai-api-key
+
+# 크롤링 대상 URL
+TARGET_URL=https://your-target-website.com/scholarship-board
+
+# 선택사항: 크롤링 설정
+MAX_PAGES=10
+DELAY_SECONDS=2
+
