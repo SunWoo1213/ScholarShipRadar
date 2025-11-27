@@ -29,10 +29,10 @@ supabase: Client = create_client(
 )
 
 # 설정값
-TARGET_URL = os.getenv("TARGET_URL", "https://web.kangnam.ac.kr")
+TARGET_URL = os.getenv("TARGET_URL", "https://web.kangnam.ac.kr/board/scholarship")
 BASE_DOMAIN = "https://web.kangnam.ac.kr"
 MAX_PAGES = int(os.getenv("MAX_PAGES", "10"))
-DELAY_SECONDS = int(os.getenv("DELAY_SECONDS", "2"))
+DELAY_SECONDS = int(os.getenv("DELAY_SECONDS", "3"))
 
 
 class ScholarshipCrawler:
