@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS scholarships (
   min_gpa FLOAT DEFAULT 0.0,
   max_income INTEGER DEFAULT 99 CHECK (max_income >= 0 AND max_income <= 99),
   residence TEXT DEFAULT '전국',
+  is_image_content BOOLEAN DEFAULT false,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -50,5 +51,6 @@ COMMENT ON COLUMN scholarships.due_date IS '장학금 신청 마감일';
 COMMENT ON COLUMN scholarships.min_gpa IS '최소 요구 학점 (0.0 = 제한 없음)';
 COMMENT ON COLUMN scholarships.max_income IS '소득분위 상한선 (0-10, 99 = 제한 없음)';
 COMMENT ON COLUMN scholarships.residence IS '거주지 제한 (예: 경기, 서울, 전국 등)';
+COMMENT ON COLUMN scholarships.is_image_content IS '본문이 이미지인지 여부 (true: 이미지, false: 텍스트)';
 COMMENT ON COLUMN scholarships.created_at IS '데이터 생성 시각';
 

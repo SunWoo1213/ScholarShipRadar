@@ -12,6 +12,7 @@ export interface Scholarship {
   min_gpa: number;
   max_income: number;
   residence: string;
+  is_image_content: boolean; // 본문이 이미지인지 여부
   created_at: string; // ISO 8601 datetime string
 }
 
@@ -23,6 +24,7 @@ export interface ScholarshipInsert {
   min_gpa?: number; // Optional, default 0
   max_income?: number; // Optional, default 99
   residence?: string; // Optional, default '전국'
+  is_image_content?: boolean; // Optional, default false
 }
 
 // 장학금 업데이트 시 사용하는 타입 (모든 필드 optional)
@@ -33,6 +35,7 @@ export interface ScholarshipUpdate {
   min_gpa?: number;
   max_income?: number;
   residence?: string;
+  is_image_content?: boolean;
 }
 
 // 사용자 필터 조건 타입

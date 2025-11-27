@@ -1,0 +1,59 @@
+name: 🔧 Manual Crawler (On Demand)
+
+on:
+  # 수동 실행 전용 (버튼 클릭으로 실행)
+  workflow_dispatch:
+    inputs:
+      max_items:
+        description: '크롤링할 최대 공고 수'
+        required: false
+        default: '50'
+        type: string
+      delay_seconds:
+        description: '요청 간 딜레이 (초)'
+        required: false
+        default: '3'
+        type: string
+
+jobs:
+  manual-crawl:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          cd crawler
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: 🕷️ Run manual crawler
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TARGET_URL: ${{ secrets.TARGET_URL }}
+          BASE_DOMAIN: ${{ secrets.BASE_DOMAIN }}
+          MAX_ITEMS: ${{ github.event.inputs.max_items }}
+          DELAY_SECONDS: ${{ github.event.inputs.delay_seconds }}
+        run: |
+          cd crawler
+          echo "🚀 수동 크롤링 시작..."
+          echo "  - 최대 공고 수: $MAX_ITEMS"
+          echo "  - 딜레이: $DELAY_SECONDS초"
+          python main.py
+      
+      - name: ✅ Success notification
+        if: success()
+        run: |
+          echo "✅ 수동 크롤링 완료!"
+          echo "처리 시간: $(date '+%Y-%m-%d %H:%M:%S')"
+

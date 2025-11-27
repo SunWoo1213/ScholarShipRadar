@@ -1,0 +1,61 @@
+name: 🤖 Daily Scholarship Crawler
+
+on:
+  # 매일 밤 12시 (한국시간 기준)
+  schedule:
+    - cron: '0 15 * * *'  # UTC 15:00 = KST 00:00
+  
+  # 수동 실행도 가능하게
+  workflow_dispatch:
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. 코드 체크아웃
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+      
+      # 2. Python 환경 설정
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      # 3. 의존성 설치
+      - name: 📦 Install dependencies
+        run: |
+          cd crawler
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      # 4. 크롤링 실행
+      - name: 🕷️ Run crawler
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TARGET_URL: ${{ secrets.TARGET_URL }}
+          BASE_DOMAIN: ${{ secrets.BASE_DOMAIN }}
+          MAX_ITEMS: 50
+          DELAY_SECONDS: 3
+        run: |
+          cd crawler
+          python main.py
+      
+      # 5. 결과 알림 (선택사항)
+      - name: 📊 Crawling completed
+        if: success()
+        run: |
+          echo "✅ 크롤링 성공!"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') - Daily crawling completed"
+      
+      # 6. 에러 알림 (선택사항)
+      - name: ❌ Crawling failed
+        if: failure()
+        run: |
+          echo "❌ 크롤링 실패!"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') - Daily crawling failed"
+
